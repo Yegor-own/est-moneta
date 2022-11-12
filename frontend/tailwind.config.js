@@ -6,14 +6,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'segoe': ['Segoe UI'],
-        'segoe-bold': ['Segoe UI Bold'],
-        'segoe-semibold': ['Segoe UI SemiBold'],
+        'body': ['Segoe UI'],
+        'head': ['Segoe UI Bold'],
+        'action': ['Segoe UI SemiBold'],
       },
       colors: {
         red: "#F15045",
         darkRed: "#EF3124",
+        darkGray: "#1F1F1F"
       },
+
     },
   },
   plugins: [],
