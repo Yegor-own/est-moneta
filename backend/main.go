@@ -23,9 +23,9 @@ func main() {
 	protected := router.Group("/protected")
 	protected.Use(middleware.Authentication())
 	{
-		protected.GET("/users/:id", controllers.UserShow)
-		protected.PUT("/users/:id", controllers.UserUpdate)
-		protected.DELETE("/users/:id", controllers.UserDelete)
+		protected.GET("/users/self", controllers.UserShow)
+		protected.PUT("/users/self", controllers.UserUpdate)
+		protected.DELETE("/users/self", controllers.UserDelete)
 
 	}
 

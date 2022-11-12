@@ -47,26 +47,21 @@ func Logout(c *gin.Context) {
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Log out succcesfuly",
+		"message": "Log out successfully",
 	})
 }
 
 func UserShow(c *gin.Context) {
 	session := sessions.Default(c)
-	id := c.Param("id")
-	sessionId := fmt.Sprint(session.Get("id"))
-	if sessionId != id {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Operation not premised"})
-		return
-	}
 
 	var user models.User
-	intId, err := strconv.Atoi(id)
+	sessionId, err := strconv.Atoi(fmt.Sprint(session.Get("id")))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	user.ID = uint(intId)
+
+	user.ID = uint(sessionId)
 
 	db := database.GetConnection()
 	db.First(&user)
@@ -90,7 +85,14 @@ func UserCreate(c *gin.Context) {
 	}
 
 	db := database.GetConnection()
-	res := db.Create(&user)
+	res := db.First(&user, "email = ?", user.Email)
+	log.Println(res.Error, res.RowsAffected)
+	if res.RowsAffected != 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Email already in use"})
+		return
+	}
+
+	res = db.Create(&user)
 	if res.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": res.Error})
 		return
@@ -106,22 +108,15 @@ func UserCreate(c *gin.Context) {
 
 func UserUpdate(c *gin.Context) {
 	session := sessions.Default(c)
-	id := c.Param("id")
-
-	sessionId := fmt.Sprint(session.Get("id"))
-	if sessionId != id {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Operation not premised"})
-		return
-	}
 
 	var user models.User
-	intId, err := strconv.Atoi(id)
+	sessionId, err := strconv.Atoi(fmt.Sprint(session.Get("id")))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	user.ID = uint(intId)
+	user.ID = uint(sessionId)
 
 	db := database.GetConnection()
 	db.First(&user)
@@ -139,22 +134,16 @@ func UserUpdate(c *gin.Context) {
 
 func UserDelete(c *gin.Context) {
 	session := sessions.Default(c)
-	id := c.Param("id")
-
-	sessionId := fmt.Sprint(session.Get("id"))
-	if sessionId != id {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Operation not premised"})
-		return
-	}
 
 	var user models.User
-	intId, err := strconv.Atoi(id)
+	sessionId, err := strconv.Atoi(fmt.Sprint(session.Get("id")))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	user.ID = uint(intId)
+	user.ID = uint(sessionId)
+
 	db := database.GetConnection()
 	res := db.Delete(&user)
 	if res.Error != nil {
