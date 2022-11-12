@@ -21,12 +21,17 @@ func Login(c *gin.Context) {
 	}
 
 	var user = models.User{
-		Email:    json.Email,
-		Password: json.Password,
+		Email: json.Email,
+		//Password: json.Password,
 	}
 	db := database.GetConnection()
-	res := db.First(&user, "email = ? and password = ?", user.Email, user.Password)
+	res := db.First(&user, "email = ?", user.Email)
 	if res.Error != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+		return
+	}
+	match := models.CheckPasswordHash(json.Password, user.Password)
+	if !match {
 		c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
 		return
 	}
@@ -65,6 +70,8 @@ func UserShow(c *gin.Context) {
 
 	db := database.GetConnection()
 	db.First(&user)
+	user.ID = 0
+	user.Password = ""
 	c.JSON(http.StatusOK, user)
 	return
 
@@ -91,6 +98,8 @@ func UserCreate(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Email already in use"})
 		return
 	}
+
+	user.Password = models.HashPassword(user.Password)
 
 	res = db.Create(&user)
 	if res.Error != nil {

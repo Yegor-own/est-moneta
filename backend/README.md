@@ -100,3 +100,13 @@
     "message": "User deleted and log out successfully"
 }
 ```
+
+Подключение нетмонет GET localhost:8080/protected/netmonet/connect
+
+Ответ JSON:
+```json
+{
+    "link": "https://netmonet.co/tip/{code}",
+    "message": "Your link https://netmonet.co/tip/{code}"
+}
+```

@@ -10,28 +10,40 @@ import (
 
 var DB = connectDB()
 
-func SeedDB() {
+func MigrateDB() {
 	log.Println("Migrating...")
 	DB.AutoMigrate(&models.User{})
+}
+
+func SeedDB() {
 
 	log.Println("Seeding...")
 	DB.Create(&models.User{
-		Nickname: "Jonathan",
-		Email:    "jonathan@email.com",
-		Password: "jonathan",
-		Verified: time.Now(),
+		Nickname:    "Jonathan",
+		Name:        "aaa",
+		SurName:     "bbb",
+		Email:       "jonathan@email.com",
+		Password:    models.HashPassword("jonathan"),
+		Verified:    time.Now(),
+		PhoneNumber: "no phone",
 	})
 	DB.Create(&models.User{
-		Nickname: "Joseph",
-		Email:    "joseph@email.com",
-		Password: "joseph",
-		Verified: time.Now(),
+		Nickname:    "Joseph",
+		Name:        "aaa",
+		SurName:     "bbb",
+		Email:       "joseph@email.com",
+		Password:    models.HashPassword("joseph"),
+		Verified:    time.Now(),
+		PhoneNumber: "no phone",
 	})
 	DB.Create(&models.User{
-		Nickname: "Jotaro",
-		Email:    "jotaro@email.com",
-		Password: "jotaro",
-		Verified: time.Now(),
+		Nickname:    "Jotaro",
+		Name:        "aaa",
+		SurName:     "bbb",
+		Email:       "jotaro@email.com",
+		Password:    models.HashPassword("jotaro"),
+		Verified:    time.Now(),
+		PhoneNumber: "+79221891712",
 	})
 
 	log.Println("All succeed!")
