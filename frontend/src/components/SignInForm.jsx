@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { DOMAIN } from './Config'
+import validator from 'validator';
 
 export default function SignInForm() {
 	const [logIn, setLogIn] = useState(() => {
@@ -17,6 +20,23 @@ export default function SignInForm() {
             [event.target.name]: event.target.value,
         }
     })
+	}
+
+
+	const submitCheckIn = event => {
+    event.preventDefault();
+    if(!validator.isEmail(logIn.email)) {
+        alert("Вы не ввели электронную почту")
+    }else{
+        axios.post(DOMAIN + "/login", {
+            email: logIn.email,
+            password: logIn.password,
+        }).then(res => {
+            // console.log(res.data);
+        }).catch(() => {
+            alert("An error occurred on the server")
+        })
+    }
 	}
 
   return (
@@ -41,7 +61,7 @@ export default function SignInForm() {
 						value={logIn.password}
 						onChange={changeInputSignIn}
 						className="w-[330px] h-[55px] font-action bg-mobileBG border-[1.68px] border-mobileBG text-a2 sm:text-a1 text-pc mb-[8px] sm:w-[548.83px] sm:h-[91.47px] rounded-[12px]"/>
-					<p className='w-[330px] h-[55px] sm:w-[548.83px] sm:h-[91.47px] py-[17px] px-[116.5px] sm:py-[31.5px] sm:px-[208px] cursor-pointer text-white text-a2 sm:text-a1 font-action bg-red rounded-[15px]'>Продолжить</p>
+					<Link to="/account" className='w-[330px] h-[55px] sm:w-[548.83px] sm:h-[91.47px] py-[17px] px-[116.5px] sm:py-[31.5px] sm:px-[208px] cursor-pointer text-white text-a2 sm:text-a1 font-action bg-red rounded-[15px]'>Продолжить</Link>
 					<p className='text-gray text-a1 font-action'>Ещё нет аккаунта? <span><Link to="/signup" className='underline text-black font-action text-a1'>Регистрация</Link></span></p>
 				</form>
     </div>
