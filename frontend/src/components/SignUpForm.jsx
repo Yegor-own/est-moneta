@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import { DOMAIN } from './Config'
+import axios from 'axios';
+import validator from 'validator';
 
 export default function SignUpForm() {
 	const [signUp, setSignUp] = useState(() => {
     return {
-				nick: "",
-				fi: "",
-				phone: "",
+		nick: "",
+		fi: "",
+		phone: "",
         email: "",
         password: "",
-				password2: "",
+		password2: "",
     }
   })
 
@@ -21,6 +24,24 @@ export default function SignUpForm() {
             [event.target.name]: event.target.value,
         }
     })
+	}
+
+	const submitCheckIn = event => {
+		event.preventDefault();
+		if(!validator.isEmail(signUp.email)) {
+			alert("Вы не ввели электронную почту")
+		}else{
+			axios.post(DOMAIN + "/users/create", {
+				nickname: signUp.nick,
+
+				email: signUp.email,
+				password: signUp.password,
+			}).then(res => {
+				// console.log(res.data);
+			}).catch(() => {
+				alert("An error occurred on the server")
+			})
+		}
 	}
 
 	return (
@@ -77,7 +98,7 @@ export default function SignUpForm() {
 				value={signUp.password2}
 				onChange={changeInputSignUp}
 				className="w-[330px] h-[55px] font-action bg-mobileBG border-[1.68px] border-mobileBG text-a2 sm:text-a1 text-pc mb-[8px] sm:w-[548.83px] sm:h-[91.47px] rounded-[12px]"/>
-			<p className='w-[330px] h-[55px] sm:w-[548.83px] sm:h-[91.47px] py-[17px] px-[116.5px] sm:py-[31.5px] sm:px-[208px] cursor-pointer text-white text-a2 sm:text-a1 font-action bg-red rounded-[15px]'>Зарегистрироваться</p>
+			<Link to="/account" className='w-[330px] h-[55px] sm:w-[548.83px] sm:h-[91.47px] py-[17px] px-[116.5px] sm:py-[31.5px] sm:px-[208px] cursor-pointer text-white text-a2 sm:text-a1 font-action bg-red rounded-[15px]'>Зарегистрироваться</Link>
 			<p className='text-gray text-a1 font-action'>Уже есть аккаунт? <span><Link to="/" className='underline text-black font-action text-a1'>Вход</Link></span></p>
 		</form>
 	</div>
