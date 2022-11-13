@@ -60,8 +60,8 @@ func ConnectNetmonet(c *gin.Context) {
 		Sector:                  "tip",
 		IsDuplicateCodesAllowed: nil,
 		GroupId:                 id,
-		FirstName:               user.Name,
-		LastName:                user.SurName,
+		FirstName:               user.FullName,
+		LastName:                user.FullName,
 		PhoneNumber:             user.PhoneNumber,
 	}
 

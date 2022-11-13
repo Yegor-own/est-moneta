@@ -9,8 +9,7 @@ import (
 type User struct {
 	gorm.Model
 	Nickname    string
-	Name        string
-	SurName     string
+	FullName    string
 	Email       string
 	Password    string
 	Verified    time.Time

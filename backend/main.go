@@ -12,7 +12,7 @@ import (
 func main() {
 
 	database.MigrateDB()
-	//database.SeedDB()
+	database.SeedDB()
 
 	router := gin.Default()
 	store := cookie.NewStore([]byte("id"))

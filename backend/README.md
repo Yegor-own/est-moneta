@@ -31,9 +31,10 @@
 Данные JSON:
 ```json
 {
-    "nickname": "Jonny",
-    "email": "jonny@email.com",
-    "password": "jonny"
+  "nickname": "Josuke",
+  "fullName": "Higashikata Josuke",
+  "email": "josuke@email.com",
+  "password": "josuke"
 }
 ```
 Ответ JSON:

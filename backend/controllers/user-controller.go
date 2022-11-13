@@ -14,6 +14,12 @@ import (
 
 func Login(c *gin.Context) {
 
+	session := sessions.Default(c)
+	if session.Get("id") != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Operation not premised"})
+		return
+	}
+
 	var json models.Login
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -36,7 +42,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	session := sessions.Default(c)
 	session.Set("id", user.ID)
 	session.Save()
 

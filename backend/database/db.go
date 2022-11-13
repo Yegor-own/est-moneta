@@ -20,8 +20,7 @@ func SeedDB() {
 	log.Println("Seeding...")
 	DB.Create(&models.User{
 		Nickname:    "Jonathan",
-		Name:        "aaa",
-		SurName:     "bbb",
+		FullName:    "JoJo Joestar",
 		Email:       "jonathan@email.com",
 		Password:    models.HashPassword("jonathan"),
 		Verified:    time.Now(),
@@ -29,8 +28,7 @@ func SeedDB() {
 	})
 	DB.Create(&models.User{
 		Nickname:    "Joseph",
-		Name:        "aaa",
-		SurName:     "bbb",
+		FullName:    "JoJo Joestar",
 		Email:       "joseph@email.com",
 		Password:    models.HashPassword("joseph"),
 		Verified:    time.Now(),
@@ -38,8 +36,7 @@ func SeedDB() {
 	})
 	DB.Create(&models.User{
 		Nickname:    "Jotaro",
-		Name:        "aaa",
-		SurName:     "bbb",
+		FullName:    "JoJo Joestar",
 		Email:       "jotaro@email.com",
 		Password:    models.HashPassword("jotaro"),
 		Verified:    time.Now(),
